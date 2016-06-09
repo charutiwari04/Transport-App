@@ -1,0 +1,43 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>Test</title>
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+		<link rel="stylesheet" href="css/style.css">
+	</head>
+	<body>
+		<header>
+			<img src="imgs/BSicon_BAHN.svg.png">
+		    <span class="page-name">
+				<i class="glyphicon glyphicon-backward"></i> Train Schedule <i class="glyphicon glyphicon-forward"></i>
+			</span>
+		</header>
+		<div id="main" class="container">
+			<div class="row">
+				<h3 class="sub-head">Please select From and To Stations.</h3>
+				<div class="col-md-6">
+					<label for="fromStop">From:</label><br>
+					<input list="fromStops" id="fromStop" type="text">
+					<datalist id="fromStops">
+						<option value=''>
+					</datalist><br>
+					<label for="toStop">To:</label><br>
+					<input list="toStops" id="toStop" type="text">
+					<datalist id="toStops">
+						<option value=''>
+					</datalist><br><br>
+					<button class="btn btn-submit" id="search">Search</button>
+				</div>
+				<div class="col-md-6">
+				</div>
+			</div>
+		</div>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
+		<!--<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>-->
+		<script src="js/lib/papaparse.min.js"></script>
+		<script src="js/lib/idb.js"></script>
+		<script src="cache-polyfill-master/index.js"></script>
+		<script src="js/app.js"></script>
+	</body>
+</html>
