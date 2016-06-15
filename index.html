@@ -1,9 +1,11 @@
 <!doctype html>
 <html>
 	<head>
-		<meta charset="utf-8">
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<title>Test</title>
-		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+		<link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+		<link rel="stylesheet" href="bootstrap-3.3.6-dist/css/bootstrap.min.css">
 		<link rel="stylesheet" href="css/style.css">
 	</head>
 	<body>
@@ -15,26 +17,39 @@
 		</header>
 		<div id="main" class="container">
 			<div class="row">
-				<h3 class="sub-head">Please select From and To Stations.</h3>
-				<div class="col-md-6">
+				<div class="trips col-md-12">
+					<h3 class="sub-head">Please select From and To Stations.</h3>
 					<label for="fromStop">From:</label><br>
-					<input list="fromStops" id="fromStop" type="text">
-					<datalist id="fromStops">
-						<option value=''>
-					</datalist><br>
+					<select class="form-control" id="fromStop">
+						<option> </option>
+					</select><br>
 					<label for="toStop">To:</label><br>
-					<input list="toStops" id="toStop" type="text">
-					<datalist id="toStops">
-						<option value=''>
-					</datalist><br><br>
-					<button class="btn btn-submit" id="search">Search</button>
+					<select class="form-control" id="toStop">
+						<option> </option>
+					</select><br>
+					<label for="serviceDay">Service Day:</label><br>
+					<select class="form-control" id="serviceDay">
+						<option> </option>
+						<option>Weekday</option>
+						<option>Saturday</option>
+						<option>Sunday</option>
+					</select><br><br>
+					<button class="btn btn-primary" data-toggle="modal" data-target=".trip-modal" id="search">Search</button>
+					<div class="modal fade trip-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+						<div class="modal-dialog modal-lg">
+							<div class="modal-content">
+							</div>
+						</div>
+					</div>
 				</div>
-				<div class="col-md-6">
+				<div id="schedule" class="col-md-12 hide">
+					<button id="change-trip" class="btn btn-primary">Change the trip</button>
+					<div id="schedules"></div>
 				</div>
 			</div>
 		</div>
-		<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
-		<!--<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>-->
+		<script src="js/lib/jquery-2.4.4.min.js"></script>
+		<script src="bootstrap-3.3.6-dist/js/bootstrap.min.js"></script>
 		<script src="js/lib/papaparse.min.js"></script>
 		<script src="js/lib/idb.js"></script>
 		<script src="cache-polyfill-master/index.js"></script>

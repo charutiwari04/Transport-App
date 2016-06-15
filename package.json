@@ -1,0 +1,19 @@
+{
+  "name": "charutiwari04",
+  "version": "1.0.0",
+  "description": "This App is public transportation app:",
+  "main": "gulpfile.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "browser-sync": "^2.12.5",
+    "gulp-autoprefixer": "^3.1.0",
+    "gulp-eslint": "^2.0.0",
+    "gulp-sass": "^2.3.1",
+	"gulp-uglify": "^1.5.3",
+	"gulp-cssmin": "^0.1.7"
+  }
+}

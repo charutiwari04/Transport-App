@@ -1,22 +1,64 @@
 body{
 	width: 100%;
-	font-family: 'Open Sans', sans-serif;
+	font-family: 'Open Sans', sans-serif;	
+	font-size: 1.5em;
 }
 header{
 	position: fixed;
-	background-color: red;
+	background-color: #3860ff;
 	height: 100px;
 	width: 100%;
 	font-size: 2.5em;
 	z-index: 1;
 }
 #main{
+	width: 80%;
 	padding-top: 100px;
 }
-.sub-head{
-	padding: 20px;
+.style-item{
+	color: #3860ff;
 }
 .page-name{
 	padding-top: 20px;
 	margin: auto;
+}
+table, th, td {
+    border: 1px solid black;
+    border-collapse: collapse;
+	text-align: center;
+}
+#route-icon{
+	width: 10px;
+	height: 80px;
+	border-radius: 5px;
+	background-color: black;
+}
+.modal-content table{
+	margin: 10px auto;
+}
+.modal-content h3{
+	text-align: center;
+}
+.modal-content button{
+	margin: auto;
+	display: block;
+}
+.trips, #schedule{
+	box-shadow: inset 0 0 1em gold, 0 0 1em #3860ff;
+	margin: 15px 0;
+	padding: 5px;
+}
+.hide{
+	display: none;
+}
+.show{
+	display: block;
+}
+@media screen and (max-width: 750px){
+	body{
+		font-size: 1.5em;
+	}
+	header{
+		font-size: 1.5em;
+	}
 }

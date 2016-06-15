@@ -1,12 +1,14 @@
 importScripts('js/cache-polyfill.js');
-var CACHE_NAME = "public_transport_cache-v1";
+var CACHE_NAME = "public_transport_cache-v3";
 var urlsToCache = [
 	'/',
 	'js/app.js',
 	'/css/style.css',
-	'/imgs/BSicon_BAHN.svg.png'
+	'bootstrap-3.3.6-dist/css/bootstrap.min.css',
+	'/imgs/BSicon_BAHN.svg.png',
+	'js/lib/jquery-2.4.4.min.js',
+	'bootstrap-3.3.6-dist/js/bootstrap.min.js'
 ];
-
 console.log("SW Started");
 self.addEventListener('install', function(event){
 	console.log("Installed");
@@ -32,16 +34,10 @@ self.addEventListener('activate', function(event){
 		})
 	);
 });
-self.addEventListener('message', function(event){
-	//console.log(event.data);
-});
 self.addEventListener('fetch', function(event){
-	console.log("Fetch Request Url " + event.request.url);
 	event.respondWith(
 		caches.match(event.request).then(function(response){
 			if(response) {
-				console.log("Got Response");
-				console.log(response);
 				return response;
 			}
 			else {
