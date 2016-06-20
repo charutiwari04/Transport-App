@@ -10,7 +10,7 @@ browserSync.init({
 });
 browserSync.stream();
 
-gulp.task('default', function() {
+gulp.task('default',['compress', 'compcss'], function() {
 	gulp.watch('sass/**/*.scss', ['styles']);
 	gulp.watch('js/**/*.js', ['lint']);
 });
