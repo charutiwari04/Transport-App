@@ -4,6 +4,9 @@
 if(navigator.serviceWorker){
 	navigator.serviceWorker.register('./sw.js')
 	.then(function(res){
+		if(!navigator.serviceWorker.controller){
+			return;
+		}
 		console.log("Service Worker Registered.");
 	},
 	function(err){
@@ -32,122 +35,133 @@ var stopArr = [];
 var tripArr = [];
 var stopTimesArr = [];
 var stationNames = [];
-/*
- * Parse CSV file trips.txt into JSON format.
- */
-Papa.parse('../data/trips.txt', {
-	delimiter: ",",
-	download:true,
-	header:true,
-	complete: function(results) {
-		tripArr = results.data;
-		/*
-		 * Parse CSV file stop_times.txt into JSON format.
-		 */
-		Papa.parse('../data/stop_times.txt', {
-			delimiter: ",",
-			download:true,
-			header:true,
-			step: function(newRow){
-				$.each(tripArr, function(){
-					if((this.trip_id === newRow.data[0].trip_id)){
-						var obj = {
-							trip_id: newRow.data[0].trip_id,
-							arrival_time: newRow.data[0].arrival_time,
-							departure_time: newRow.data[0].departure_time,
-							stop_id: newRow.data[0].stop_id,
-							stop_sequence: newRow.data[0].stop_sequence,
-							pickup_type: newRow.data[0].pickup_type,
-							drop_off_type: newRow.data[0].drop_off_type,
-							route_id: this.route_id,
-							service_id: this.service_id
+$.getJSON("data/trips.json")
+.done(function(data){
+	tripArr = data;
+	$.getJSON("data/stop_times.json")
+	.done(function(timeData){
+		$.each(timeData, function(timeIndx, timeVal){
+			$.each(tripArr, function(tripIndx, tripVal){
+				if(timeVal.trip_id === tripVal.trip_id){
+					var obj = {
+							trip_id: timeVal.trip_id,
+							arrival_time: timeVal.arrival_time,
+							departure_time: timeVal.departure_time,
+							stop_id: timeVal.stop_id,
+							stop_sequence: timeVal.stop_sequence,
+							pickup_type: timeVal.pickup_type,
+							drop_off_type: timeVal.drop_off_type,
+							route_id: tripVal.route_id,
+							service_id: tripVal.service_id
 						}
 						stopTimesArr.push(obj);
-					}
-				});
-			},
-			complete: function(newResults){
-				/*
-				 * Parse CSV file stops.txt into JSON format.
-				 */
-				Papa.parse('../data/stops.txt', {
-					delimiter: ",",
-					download:true,
-					header:true,
-					step: function(newStopRow){
-						$.each(stopTimesArr, function(){
-							if(this.stop_id === newStopRow.data[0].stop_id){
-								var Id = this.trip_id + this.stop_sequence;
-								var objNew = {
-									'id': Id,
-									'stop_id': this.stop_id,
-									'stop_name': newStopRow.data[0].stop_name,
-									'arrival_time': this.arrival_time,
-									'departure_time': this.departure_time,
-									'trip_id': this.trip_id,
-									'stop_sequence': this.stop_sequence,
-									'route_id': this.route_id,
-									'service_id': this.service_id
-								}
-								stopArr.push(objNew);
-							}
-						});
-					},
-					complete: function(finalResult){
-						$.each(stopArr,function(i,val){
-							if(stationNames.indexOf(val.stop_name) === -1){
-								stationNames.push(val.stop_name);
-							}
-						});
-						$.each(stationNames, function(i,val){
-							$('#fromStop').append("<option>"+ val +"</option>");
-							$('#toStop').append("<option>"+ val +"</option>");
-						});
-						/*
-						 * Store data to indexedDB transport.
-						 */
-						dbPromise.then(function(db) {
-							if (!db) return;
-								var tx = db.transaction('transports', 'readwrite');
-								var store = tx.objectStore('transports');
-								stopArr.forEach(function(message) {
-									store.put(message);
-								});
-						});
-						
-					}
-				});
-			}
-			});
-		}
-});
-/*
- * Click event handler on Search button.
- */
-$('#search').on('click', function(){
-	$('.modal-content').html('');
-	fromValue = $('#fromStop').val();
-	toValue = $('#toStop').val();
-	serviceDay = $('#serviceDay').val();
-	if(fromValue === '' || toValue === '' || serviceDay === ''){alert('Please provide all values');}
-	if(fromValue === toValue){
-		alert('Both stations should be different');
-		return;
-	}
-	$('.modal-content').append('<h3>'+"Select Any Trip"+'</h3><table><tr><th>'+'Trip ID'+'</th><th>'+'Departure Time'+'</th><th>'+'Stop Seq'+'</th></tr></table><button id="returnMain" class="btn btn-primary">Return</button>');
-	dbPromise.then(function(db) {
-		if (!db) return;
-		var index = db.transaction('transports')
-		.objectStore('transports').index('by-trip');
-
-		return index.getAll().then(function(trip) {
-			trip.forEach(function(e, index, array){
-				if((fromValue === e.stop_name) && (e.service_id.indexOf(serviceDay) > 0)){
-					$('.modal-content table').append('<tr><td>'+e.trip_id+'</td><td>'+e.arrival_time+'</td><td>'+e.stop_sequence+'</td></tr>');
 				}
 			});
 		});
-	});	
+		$.getJSON("data/stops.json")
+		.done(function(stopData){
+			$.each(stopData, function(stopIndx, stopVal){
+				$.each(stopTimesArr, function(newIndx, newVal){
+					if(newVal.stop_id === stopVal.stop_id){
+						var Id = newVal.trip_id + newVal.stop_sequence;
+						var objNew = {
+							'id': Id,
+							'stop_id': newVal.stop_id,
+							'stop_name': stopVal.stop_name,
+							'arrival_time': newVal.arrival_time,
+							'departure_time': newVal.departure_time,
+							'trip_id': newVal.trip_id,
+							'stop_sequence': newVal.stop_sequence,
+							'route_id': newVal.route_id,
+							'service_id': newVal.service_id
+						}
+						stopArr.push(objNew);
+					}
+				});
+			});
+			$.each(stopArr, function(i,val){
+				if(stationNames.indexOf(val.stop_name) === -1){
+					stationNames.push(val.stop_name);
+				}
+			});
+			$.each(stationNames, function(i,val){
+				$('#fromStop').append("<option>"+ val +"</option>");
+				$('#toStop').append("<option>"+ val +"</option>");
+			});
+			dbPromise.then(function(db) {
+				if (!db) return;
+					var tx = db.transaction('transports', 'readwrite');
+					var store = tx.objectStore('transports');
+					stopArr.forEach(function(message) {
+						store.put(message);
+					});
+			});
+		})
+		.fail(function(jqxhr, textStatus, error){
+			var err = textStatus +","+error;
+			console.log("Stops Request Failed: "+err);
+		});
+	})
+	.fail(function(jqxhr, textStatus, error){
+		var err = textStatus +","+error;
+		console.log("Stop_Times Request Failed: "+err);
+	});
+})
+.fail(function(jqxhr, textStatus, error){
+	var err = textStatus +","+error;
+	console.log("Trips Request Failed: "+err);
+});
+/*
+ * Input Validation.
+ */
+function validateFrom(){
+	var txt ="";
+	if(document.getElementById('fromStop').validity.valueMissing){
+		txt ="Please select out the field."
+	}
+	document.getElementById('from-err').innerHTML = txt;
+}
+function validateTo(){
+	var txt ="";
+	if(document.getElementById('toStop').validity.valueMissing){
+		txt ="Please select out the field."
+	}
+	document.getElementById('to-err').innerHTML = txt;
+}
+function validateDay(){
+	var txt ="";
+	if(document.getElementById('serviceDay').validity.valueMissing){
+		txt ="Please select out the field."
+	}
+	document.getElementById('day-err').innerHTML = txt;
+}
+/*
+ * Click event handler on Search button.
+ */
+$('#search').on("click", function(evt) {
+  $('.modal-content').html('');
+	fromValue = $('#fromStop').val();
+	toValue = $('#toStop').val();
+	serviceDay = $('#serviceDay').val();
+	if(fromValue === '' || toValue === '' || serviceDay === ''){$('#form-err').text('Please provide all values');return;}
+	if(fromValue === toValue){
+		$('#form-err').text('Both stations should be different');
+		return;
+	}
+	$('.modal-content').append('<h3>'+"Select Any Trip"+'</h3><table><tr><th>'+'Trip ID'+'</th><th>'+'Arrival Time'+'</th>+<th>'+'Departure Time'+'</th><th>'+'Stop Seq'+'</th></tr></table><button id="returnMain" class="btn btn-primary">Return</button>');
+	dbPromise.then(function(db) {
+		if (!db) return;
+		var indexN = db.transaction('transports')
+		.objectStore('transports').index('by-trip');
+
+		return indexN.getAll().then(function(trip) {
+			trip.forEach(function(e, index, array){
+				if((fromValue === e.stop_name) && (e.service_id.indexOf(serviceDay) > 0)){
+					$('.modal-content table').append('<tr><td>'+e.trip_id+'</td><td>'+e.arrival_time+'</td><td>'+e.departure_time+'</td><td>'+e.stop_sequence+'</td></tr>');
+				}
+			});
+		});
+	});
 });	
 /*
  * @assignService function to convert route id to route description.
@@ -172,9 +186,9 @@ $('.modal-content').on('click', 'tr', function(){
 	 */
 	dbPromise.then(function(db) {
 		if (!db) return;
-		var index = db.transaction('transports')
+		var indexT = db.transaction('transports')
 		.objectStore('transports').index('by-trip');
-		return index.getAll(tripVal).then(function(trip) {
+		return indexT.getAll(tripVal).then(function(trip) {
 			function compareNumbers(a, b){
 				return a.stop_sequence - b.stop_sequence;
 			}

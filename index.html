@@ -19,22 +19,28 @@
 			<div class="row">
 				<div class="trips col-md-12">
 					<h3 class="sub-head">Please select From and To Stations.</h3>
+					<form id="form-main">
 					<label for="fromStop">From:</label><br>
-					<select class="form-control" id="fromStop">
-						<option> </option>
-					</select><br>
+					<select class="form-control" id="fromStop" onfocusout="validateFrom()" required>
+						<option></option>
+					</select>
+					<span class="error-msg" id="from-err"></span></br>
 					<label for="toStop">To:</label><br>
-					<select class="form-control" id="toStop">
+					<select class="form-control" id="toStop" onfocusout="validateTo()" required>
 						<option> </option>
-					</select><br>
+					</select>
+					<span class="error-msg" id="to-err"></span></br>
 					<label for="serviceDay">Service Day:</label><br>
-					<select class="form-control" id="serviceDay">
+					<select class="form-control" id="serviceDay" onfocusout="validateDay()" required>
 						<option> </option>
 						<option>Weekday</option>
 						<option>Saturday</option>
 						<option>Sunday</option>
-					</select><br><br>
-					<button class="btn btn-primary" data-toggle="modal" data-target=".trip-modal" id="search">Search</button>
+					</select>
+					<span class="error-msg" id="day-err"></span></br><br>
+					<button type="button" class="btn btn-primary" data-toggle="modal" data-target=".trip-modal" id="search">Search</button><br>
+					<span class="error-msg" id="form-err"></span>
+					</form>
 					<div class="modal fade trip-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
 						<div class="modal-dialog modal-lg">
 							<div class="modal-content">
@@ -50,7 +56,6 @@
 		</div>
 		<script src="js/lib/jquery-2.4.4.min.js"></script>
 		<script src="bootstrap-3.3.6-dist/js/bootstrap.min.js"></script>
-		<script src="js/lib/papaparse.min.js"></script>
 		<script src="js/lib/idb.js"></script>
 		<script src="cache-polyfill-master/index.js"></script>
 		<script src="js/app.js"></script>
