@@ -21,7 +21,11 @@
     "gulp-cssmin": "^0.1.7"
   },
   "devDependencies": {
-    "gulp": "^3.9.1"
+    "gulp": "^3.9.1",
+    "gulp-htmlmin": "^2.0.0",
+    "gulp-imagemin": "^3.0.1",
+    "gulp-jsonminify": "^1.0.0",
+    "gulp-usemin": "^0.3.23"
   },
   "bugs": {
     "url": "https://github.com/charutiwari04/Transport-App/issues"

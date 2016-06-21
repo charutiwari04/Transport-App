@@ -5,6 +5,9 @@ var browserSync = require('browser-sync').create();
 var eslint = require('gulp-eslint');
 var uglify = require('gulp-uglify');
 var cssmin = require('gulp-cssmin');
+var htmlmin = require('gulp-htmlmin');
+var imagemin = require('gulp-imagemin');
+var jsonminify = require('gulp-jsonminify');
 
 gulp.task('serve', [], function(){
 	browserSync.init({
@@ -13,7 +16,7 @@ gulp.task('serve', [], function(){
 	browserSync.stream();
 });
 
-gulp.task('default',['compress', 'compcss', 'serve'], function() {
+gulp.task('default',['compress', 'compcss', 'comphtml', 'compimg', 'jsonmin', 'serve'], function() {
 	gulp.watch('sass/**/*.scss', ['styles']);
 	gulp.watch('js/**/*.js', ['lint']);
 });
@@ -54,6 +57,21 @@ gulp.task('compcss', function () {
 	gulp.src('css/**/*.css')
 		.pipe(cssmin())
 		.pipe(gulp.dest('dist/css'));
+});
+gulp.task('comphtml', function(){
+	return gulp.src('./*.html')
+		.pipe(htmlmin({collapseWhitespace: true}))
+		.pipe(gulp.dest('dist'))
+});
+gulp.task('compimg', function(){
+	gulp.src('imgs/**/*')
+		.pipe(imagemin())
+		.pipe(gulp.dest('dist/imgs'))
+});
+gulp.task('jsonmin', function () {
+    return gulp.src(['data/*.json'])
+        .pipe(jsonminify())
+        .pipe(gulp.dest('dist/data'));
 });
 gulp.task('serve:dist', function(){
 	browserSync.init({
