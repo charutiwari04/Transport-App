@@ -142,6 +142,7 @@ function validateDay(){
  */
 $('#search').on("click", function(evt) {
   $('.modal-content').html('');
+  $('#form-err').text('');
 	fromValue = $('#fromStop').val();
 	toValue = $('#toStop').val();
 	serviceDay = $('#serviceDay').val();
