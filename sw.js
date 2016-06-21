@@ -1,11 +1,17 @@
 importScripts('js/cache-polyfill.js');
-var CACHE_NAME = "public_transport_cache-v9";
+var CACHE_NAME = "public_transport_cache-v10";
 var urlsToCache = [
 	'/',
 	'js/app.js',
 	'/css/style.css',
 	'/css/bootstrap.min.css',
 	'/imgs/BSicon_BAHN.svg.png',
+	'imgs/glyphicons/png/glyphicons-170-record.png',
+	'imgs/glyphicons/png/glyphicons-172-fast-backward.png',
+	'imgs/glyphicons/png/glyphicons-178-fast-forward.png',
+	'imgs/glyphicons/png/glyphicons-348-hand-up.png',
+	'imgs/glyphicons/png/glyphicons-349-hand-down.png',
+	'imgs/glyphicons/png/glyphicons-518-option-vertical.png',
 	'js/lib/jquery-2.4.4.min.js',
 	'js/lib/bootstrap.min.js',
 	'js/lib/idb.js',
@@ -26,12 +32,13 @@ self.addEventListener('install', function(event){
 	);
 });
 self.addEventListener('activate', function(event){
+	console.log("activated");
 	event.waitUntil(
 		caches.keys().then(function(cacheNames){
 			return Promise.all(
 			cacheNames.filter(function(cacheName){
-				return cacheName.startsWith('public_')&&
-						cacheName != CACHE_NAME;
+				console.log(cacheName);
+				return (cacheName.startsWith('public_transport_cache') && (cacheName != CACHE_NAME));
 			}).map(function(cacheName){
 				console.log("Cache Deleted");
 				return cache.delete(cacheName);
