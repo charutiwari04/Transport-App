@@ -52,7 +52,8 @@ $.getJSON("data/trips.json")
 							pickup_type: timeVal.pickup_type,
 							drop_off_type: timeVal.drop_off_type,
 							route_id: tripVal.route_id,
-							service_id: tripVal.service_id
+							service_id: tripVal.service_id,
+							direction_id: tripVal.direction_id
 						}
 						stopTimesArr.push(obj);
 				}
@@ -60,8 +61,8 @@ $.getJSON("data/trips.json")
 		});
 		$.getJSON("data/stops.json")
 		.done(function(stopData){
-			$.each(stopData, function(stopIndx, stopVal){
-				$.each(stopTimesArr, function(newIndx, newVal){
+			$.each(stopTimesArr, function(newIndx, newVal){
+				$.each(stopData, function(stopIndx, stopVal){
 					if(newVal.stop_id === stopVal.stop_id){
 						var Id = newVal.trip_id + newVal.stop_sequence;
 						var objNew = {
@@ -73,7 +74,8 @@ $.getJSON("data/trips.json")
 							'trip_id': newVal.trip_id,
 							'stop_sequence': newVal.stop_sequence,
 							'route_id': newVal.route_id,
-							'service_id': newVal.service_id
+							'service_id': newVal.service_id,
+							'direction_id': newVal.direction_id
 						}
 						stopArr.push(objNew);
 					}
@@ -155,11 +157,27 @@ $('#search').on("click", function(evt) {
 		.objectStore('transports').index('by-trip');
 
 		return indexN.getAll().then(function(trip) {
+			var tripData =[];
 			trip.forEach(function(e, index, array){
 				if((fromValue === e.stop_name) && (e.service_id.indexOf(serviceDay) > 0)){
-					$('.modal-content table').append('<tr><td>'+e.trip_id+'</td><td>'+e.arrival_time+'</td><td>'+e.departure_time+'</td><td>'+e.stop_sequence+'</td></tr>');
+				tripData.push(
+					{
+						'trip_id': e.trip_id,
+						'arr_time': e.arrival_time,
+						'dep_time': e.departure_time,
+						'stop_seq': e.stop_sequence
+					}
+				);
 				}
 			});
+			if(tripData.length ===0){
+				$('.modal-content').append("<h4>Sorry!!! There are no service available between selected stations on this service Day. Please select other stations or service Day.</h4>")
+			}
+			else{
+				tripData.forEach(function(e, ind, arr){
+					$('.modal-content table').append('<tr><td>'+e.trip_id+'</td><td>'+e.arr_time+'</td><td>'+e.dep_time+'</td><td>'+e.stop_seq+'</td></tr>');
+				});
+			}
 		});
 	});
 });	
