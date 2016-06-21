@@ -221,9 +221,9 @@ $('.modal-content').on('click', 'tr', function(){
 			$('#schedules').html('<h3>'+'Schedule - from: '+'<span class="style-item">'+fromValue.replace('Caltrain', '')+'</span>'+' to: '+'<span class="style-item">'+toValue.replace('Caltrain', '')+'</span></h3>');
 			if(parseInt(fromResult[0].stop_sequence) < parseInt(toResult[0].stop_sequence)){
 				$('#schedules').append('<span>'+fromValue+' '+'('+assignService(fromResult[0].route_id)+')</span><br>');
-				$('#schedules').append('<span>'+fromResult[0].arrival_time+'</span><span class="glyphicon glyphicon-triangle-bottom"></span><br>');
-				$('#schedules').append('<span class="glyphicon glyphicon-option-vertical"></span><br>');
-				$('#schedules').append('<span>'+fromResult[0].departure_time+'</span><span class="glyphicon glyphicon-triangle-bottom"></span><br><br>');
+				$('#schedules').append('<span>'+fromResult[0].arrival_time+'</span><img src="imgs/glyphicons/png/glyphicons-349-hand-down.png"><br>');
+				$('#schedules').append('<img src="imgs/glyphicons/png/glyphicons-518-option-vertical.png"><br>');
+				$('#schedules').append('<span>'+fromResult[0].departure_time+'</span><img src="imgs/glyphicons/png/glyphicons-349-hand-down.png"><br><br>');
 				$('#schedules').append('<div id="route-icon"></div><br>');
 				var routeID = fromResult[0].route_id;
 				for(var i=parseInt(fromResult[0].stop_sequence)+1; i<=parseInt(toResult[0].stop_sequence)-1;i++){
@@ -234,19 +234,19 @@ $('.modal-content').on('click', 'tr', function(){
 						if(nextResult[0].route_id !== routeID){
 							routeID = nextResult[0].route_id;
 							$('#schedules').append('<span>'+nextResult[0].stop_name+' '+'('+assignService(nextResult[0].route_id)+')</span><br>');
-							$('#schedules').append('<span>'+nextResult[0].arrival_time+'</span><span class="glyphicon glyphicon-triangle-bottom"></span><br>');
-							$('#schedules').append('<span class="glyphicon glyphicon-option-vertical"></span><br>');
-							$('#schedules').append('<span>'+nextResult[0].departure_time+'</span><span class="glyphicon glyphicon-triangle-bottom"></span><br><br>');
+							$('#schedules').append('<span>'+nextResult[0].arrival_time+'</span><img src="imgs/glyphicons/png/glyphicons-349-hand-down.png"><br>');
+							$('#schedules').append('<img src="imgs/glyphicons/png/glyphicons-518-option-vertical.png"><br>');
+							$('#schedules').append('<span>'+nextResult[0].departure_time+'</span><img src="imgs/glyphicons/png/glyphicons-349-hand-down.png"></span><br><br>');
 							$('#schedules').append('<div id="route-icon"></div><br>');
 						}
 					}
 				}
 				$('#schedules').append('<span>'+toValue+'</span><br>');
-				$('#schedules').append('<span>'+toResult[0].arrival_time+'</span><br><span class="glyphicon glyphicon-record"></span><br>');
+				$('#schedules').append('<span>'+toResult[0].arrival_time+'</span><br><img src="imgs/glyphicons/png/glyphicons-170-record.png"><br>');
 			}
 			else{
 				$('#schedules').append('<span>'+fromValue+' '+'('+assignService(fromResult[0].route_id)+')</span><br>');
-				$('#schedules').append('<span>'+fromResult[0].arrival_time+'</span><br><span class="glyphicon glyphicon-record"></span><br><br>');
+				$('#schedules').append('<span>'+fromResult[0].arrival_time+'</span><br><img src="imgs/glyphicons/png/glyphicons-170-record.png"><br><br>');
 				$('#schedules').append('<div id="route-icon"></div><br>');
 				var routeID = fromResult[0].route_id;
 				for(var i=parseInt(fromResult[0].stop_sequence)-1; i>=parseInt(toResult[0].stop_sequence)+1;i--){
@@ -255,17 +255,17 @@ $('.modal-content').on('click', 'tr', function(){
 						if(nextResult[0].route_id !== routeID){
 							routeID = nextResult[0].route_id;
 							$('#schedules').append('<span>'+nextResult[0].stop_name+' '+'('+assignService(nextResult[0].route_id)+')</span><br>');
-							$('#schedules').append('<span>'+nextResult[0].arrival_time+'</span><span class="glyphicon glyphicon-triangle-top"></span><br>');
-							$('#schedules').append('<span class="glyphicon glyphicon-option-vertical"></span><br>');
-							$('#schedules').append('<span>'+nextResult[0].departure_time+'</span><span class="glyphicon glyphicon-triangle-top"></span><br><br>');
+							$('#schedules').append('<span>'+nextResult[0].arrival_time+'</span><img src="imgs/glyphicons/png/glyphicons-348-hand-up.png"><br>');
+							$('#schedules').append('<img src="imgs/glyphicons/png/glyphicons-518-option-vertical.png"><br>');
+							$('#schedules').append('<span>'+nextResult[0].departure_time+'</span><img src="imgs/glyphicons/png/glyphicons-348-hand-up.png"><br><br>');
 							$('#schedules').append('<div id="route-icon"></div><br>');
 						}
 					}
 				}
 				$('#schedules').append('<span>'+toValue+'</span><br>');
-				$('#schedules').append('<span>'+toResult[0].arrival_time+'</span><span class="glyphicon glyphicon-triangle-top"></span><br>');
-				$('#schedules').append('<span class="glyphicon glyphicon-option-vertical"></span><br>');
-				$('#schedules').append('<span>'+toResult[0].departure_time+'</span><span class="glyphicon glyphicon-triangle-top"></span>');
+				$('#schedules').append('<span>'+toResult[0].arrival_time+'</span><img src="imgs/glyphicons/png/glyphicons-348-hand-up.png"><br>');
+				$('#schedules').append('<img src="imgs/glyphicons/png/glyphicons-518-option-vertical.png"><br>');
+				$('#schedules').append('<span>'+toResult[0].departure_time+'</span><img src="imgs/glyphicons/png/glyphicons-348-hand-up.png">');
 			}
 		});
 	});	

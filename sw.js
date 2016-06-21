@@ -1,13 +1,13 @@
 importScripts('js/cache-polyfill.js');
-var CACHE_NAME = "public_transport_cache-v8";
+var CACHE_NAME = "public_transport_cache-v9";
 var urlsToCache = [
 	'/',
 	'js/app.js',
 	'/css/style.css',
-	'bootstrap-3.3.6-dist/css/bootstrap.min.css',
+	'/css/bootstrap.min.css',
 	'/imgs/BSicon_BAHN.svg.png',
 	'js/lib/jquery-2.4.4.min.js',
-	'bootstrap-3.3.6-dist/js/bootstrap.min.js',
+	'js/lib/bootstrap.min.js',
 	'js/lib/idb.js',
 	'cache-polyfill-master/index.js',
 	'data/stop_times.json',
