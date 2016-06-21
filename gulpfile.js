@@ -5,12 +5,15 @@ var browserSync = require('browser-sync').create();
 var eslint = require('gulp-eslint');
 var uglify = require('gulp-uglify');
 var cssmin = require('gulp-cssmin');
-browserSync.init({
-	server: "./"
-});
-browserSync.stream();
 
-gulp.task('default',['compress', 'compcss'], function() {
+gulp.task('serve', [], function(){
+	browserSync.init({
+		server: "./"
+	});
+	browserSync.stream();
+});
+
+gulp.task('default',['compress', 'compcss', 'serve'], function() {
 	gulp.watch('sass/**/*.scss', ['styles']);
 	gulp.watch('js/**/*.js', ['lint']);
 });
@@ -51,4 +54,10 @@ gulp.task('compcss', function () {
 	gulp.src('css/**/*.css')
 		.pipe(cssmin())
 		.pipe(gulp.dest('dist/css'));
+});
+gulp.task('serve:dist', function(){
+	browserSync.init({
+		server: "dist"
+	});
+	browserSync.stream();
 });
