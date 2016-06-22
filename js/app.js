@@ -2,7 +2,7 @@
  * Register Service Worker.
  */
 if(navigator.serviceWorker){
-	navigator.serviceWorker.register('./sw.js')
+	navigator.serviceWorker.register('sw.js')
 	.then(function(res){
 		if(!navigator.serviceWorker.controller){
 			return;

@@ -1,5 +1,5 @@
-importScripts('js/cache-polyfill.js');
-var CACHE_NAME = "public_transport_cache-v10";
+importScripts('js/cache-polyfill-master/index.js');
+var CACHE_NAME = "public_transport_cache-v12";
 var urlsToCache = [
 	'/',
 	'js/app.js',
@@ -15,7 +15,7 @@ var urlsToCache = [
 	'js/lib/jquery-2.4.4.min.js',
 	'js/lib/bootstrap.min.js',
 	'js/lib/idb.js',
-	'cache-polyfill-master/index.js',
+	'js/cache-polyfill-master/index.js',
 	'data/stop_times.json',
 	'data/stops.json',
 	'data/trips.json'

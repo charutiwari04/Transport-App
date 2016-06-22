@@ -1,5 +1,4 @@
 var gulp = require('gulp');
-var sass = require('gulp-sass');
 var autoprefixer = require('gulp-autoprefixer');
 var browserSync = require('browser-sync').create();
 var eslint = require('gulp-eslint');
@@ -16,18 +15,8 @@ gulp.task('serve', [], function(){
 	browserSync.stream();
 });
 
-gulp.task('default',['compress', 'compcss', 'comphtml', 'compimg', 'jsonmin', 'serve'], function() {
-	gulp.watch('sass/**/*.scss', ['styles']);
+gulp.task('default',['compress', 'compsw', 'compcss', 'comphtml', 'compimg', 'jsonmin', 'serve'], function() {
 	gulp.watch('js/**/*.js', ['lint']);
-});
-
-gulp.task('styles', function(){
-	gulp.src('sass/**/*.scss')
-	    .pipe(sass().on('error', sass.logError))
-		.pipe(autoprefixer({
-			browsers: ['last 2 versions']
-		}))
-		.pipe(gulp.dest('./css'));
 });
 
 gulp.task('lint', function () {
@@ -51,6 +40,11 @@ gulp.task('compress', function(){
 	return gulp.src(['js/**/*.js'])
 	.pipe(uglify())
 	.pipe(gulp.dest('dist/js'));
+});
+gulp.task('compsw', function(){
+	return gulp.src(['sw.js'])
+	.pipe(uglify())
+	.pipe(gulp.dest('dist'));
 });
 
 gulp.task('compcss', function () {
